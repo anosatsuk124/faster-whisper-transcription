@@ -17,11 +17,11 @@ class TranscriberApp:
         # selected file path
         self.audio_file = None
 
-        # UI elements
-        self.create_widgets()
-
         self.model_name = "kotoba-tech/kotoba-whisper-v2.0-faster"  # default model
         self.is_gpu = False  # default to CPU
+
+        # UI elements
+        self.create_widgets()
 
     def create_widgets(self):
         # File selection
