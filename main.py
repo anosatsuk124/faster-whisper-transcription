@@ -89,7 +89,7 @@ class TranscriberApp:
 
     def select_file(self):
         path = filedialog.askopenfilename(
-            filetypes=[("Audio Files", "*.mp3 *.wav *.m4a *.flac"), ("All Files", "*.*")]
+            filetypes=[("All Files", "*.*")]
         )
         if path:
             self.audio_file = path
