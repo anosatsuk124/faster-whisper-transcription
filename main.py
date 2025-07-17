@@ -45,30 +45,24 @@ class TranscriberApp:
         self.progress = ttk.Progressbar(self.root, mode="indeterminate")
         self.progress.pack(fill="x", padx=10, pady=(0,10))
 
-        # Text area for output
-        text_frame = ttk.Frame(self.root, padding=10)
-        text_frame.pack(fill="both", expand=True)
-
-        self.text_widget = tk.Text(text_frame, wrap="word")
-        self.text_widget.pack(fill="both", expand=True)
-
-        # Checkbox for GPU usage
+        # GPU利用チェックボックス
         gpu_frame = ttk.Frame(self.root, padding=10)
         gpu_frame.pack(fill="x")
         self.gpu_var = tk.BooleanVar(value=False)
-        gpu_checkbox = ttk.Checkbutton(gpu_frame, text="GPUを使用する", variable=self.gpu_var, command=self.toggle_gpu)
-        gpu_checkbox.pack(side="left")
-        self.is_gpu = self.gpu_var.get()
-        # Model selection
+        ttk.Checkbutton(gpu_frame, text="GPUを使用する", variable=self.gpu_var, command=self.toggle_gpu).pack(side="left")
+
+        # モデル選択
         model_frame = ttk.Frame(self.root, padding=10)
         model_frame.pack(fill="x")
         self.model_var = tk.StringVar(value=self.model_name)
-        model_label = ttk.Label(model_frame, text="モデル:")
-        model_label.pack(side="left")
-        model_entry = ttk.Entry(model_frame, textvariable=self.model_var)
-        model_entry.pack(side="left", fill="x", expand=True)
-        model_entry.bind("<Return>", self.update_model)
-        model_entry.bind("<FocusOut>", self.update_model)
+        ttk.Label(model_frame, text="モデル:").pack(side="left")
+        ttk.Entry(model_frame, textvariable=self.model_var).pack(side="left", fill="x", expand=True)
+
+        # ここで初めてテキスト領域
+        text_frame = ttk.Frame(self.root, padding=10)
+        text_frame.pack(fill="both", expand=True)
+        self.text_widget = tk.Text(text_frame, wrap="word")
+        self.text_widget.pack(fill="both", expand=True)
 
     def toggle_gpu(self):
         self.is_gpu = self.gpu_var.get()
