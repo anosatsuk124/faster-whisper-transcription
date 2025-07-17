@@ -114,20 +114,15 @@ class TranscriberApp:
                 return
             segments, _ = model.transcribe(self.audio_file, chunk_length=15, condition_on_previous_text=False, language="ja")
             for segment in segments:
-                line = "[%.2fs -> %.2fs] %s\n" % (segment.start, segment.end, segment.text)
-                full_text += segment.text
+                line = "[%.2fm%.2fs -> %.2fm%.2fs] %s\n" % (segment.start // 60, segment.start % 60, segment.end // 60, segment.end % 60, segment.text)
+                full_text += line
                 # insert into text widget in UI thread
                 self.text_widget.insert(tk.END, line)
                 self.text_widget.see(tk.END)
 
-            # final full transcription
-            self.text_widget.insert(tk.END, "\n=== 完全テキスト ===\n" + full_text + "\n")
-            # save to file
             out_path = f"{self.audio_file}.txt"
             with open(out_path, "w", encoding="utf-8") as f:
-                for segment in segments:
-                    f.write("[%.2fs -> %.2fs] %s\n" % (segment.start, segment.end, segment.text))
-                f.write("\n" + full_text + "\n")
+                f.write(full_text)
             messagebox.showinfo("完了", f"文字起こしが完了し、{out_path} に保存しました。")
         except Exception as e:
             messagebox.showerror("エラー", f"文字起こし中にエラーが発生しました:\n{e}")
